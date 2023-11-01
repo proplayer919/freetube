@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FreeTube</title>
+
+    <style>
+        * {
+            text-align: center;
+        }
+
+        .heading {
+            font-family: Arial;
+            margin-top: 40vh;
+        }
+
+        .url,
+        .watch-button {
+            font-size: 1.3em;
+            padding: 5px 10px;
+        }
+
+        .url {
+            border-radius: 4px 0px 0px 4px;
+            width: 30em;
+            text-align: left;
+            border: 2px solid #EEEEEE;
+            background: #EEEEEE;
+            outline: none;
+        }
+
+        .url:focus {
+            border: 2px solid #0485ff;
+        }
+
+        .watch-button {
+            border-radius: 0px 4px 4px 0px;
+            border: 2px solid #0485ff;
+            background: #0485ff;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="heading">FreeTube</h1>
+    <input class="url" id="url" placeholder="YouTube URL here (e.g. https://youtube.com/watch?v=MtN1YnoL46Q)">
+    <button class="watch-button" id="watch">Watch</button>
+
+    <script>
+        let watch = document.getElementById('watch');
+        let url = document.getElementById('url');
+
+        watch.addEventListener('click', () => {
+            send(url.value);
+        });
+
+        function send(url) {
+            window.open("/watch?url=" + url.replace('?', '*').replace('=', '@'));
+        }
+    </script>
+</body>
+
+</html>
