@@ -9,11 +9,11 @@ const port = 3000;
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send(fs.readFileSync('index.html').toString());
+    res.send(fs.readFileSync('./index.html').toString());
 });
 
 app.get('/watch', (req, res) => {
-    res.send(fs.readFileSync('watch.html').toString());
+    res.send(fs.readFileSync('./watch.html').toString());
 });
 
 app.get('/get', (req, res) => {
