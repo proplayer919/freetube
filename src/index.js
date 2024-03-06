@@ -7,35 +7,34 @@ const app = express();
 const port = 3000;
 
 app.use(cors());
-
-app.get('/', (req, res) => {
-    res.send(fs.readFileSync('./index.html').toString());
-});
+app.use(express.static(__dirname + '/public'));
 
 app.get('/watch', (req, res) => {
-    res.send(fs.readFileSync('./watch.html').toString());
+    res.sendFile(__dirname + '/public/watch.html');
 });
 
-app.get('/get', (req, res) => {
-    const videoUrl = req.query.url; // Get YouTube video URL from query parameter
+app.get('/video', async (req, res) => {
+    try {
+        // Get the YouTube video URL from the query parameter
+        const videoURL = "https://www.youtube.com/watch?v=" + req.query.url;
 
-    // Check if the URL is valid
-    if (ytdl.validateURL(videoUrl)) {
-        ytdl.getInfo(videoUrl, (err, info) => {
-            if (err) {
-                res.status(500).send('Error getting video info');
-                return;
-            }
+        // Validate the YouTube URL
+        if (!ytdl.validateURL(videoURL)) {
+            return res.status(400).send('Invalid YouTube URL');
+        }
 
-            const format = ytdl.chooseFormat(info.formats, { quality: 'highest' });
+        // Get video info
+        const info = await ytdl.getInfo(videoURL);
 
-            res.header('Content-Disposition', `inline; filename="${info.title}.mp4"`);
-            ytdl(videoUrl, {
-                format: format,
-            }).pipe(res);
-        });
-    } else {
-        res.status(400).send('Invalid YouTube video URL');
+        // Stream the video
+        res.header('Content-Disposition', `attachment; filename="${info.title}.mp4"`);
+        ytdl(videoURL, {
+            format: 'mp4'
+        }).pipe(res);
+
+    } catch (err) {
+        console.error('Error:', err);
+        res.status(500).send('Server Error');
     }
 });
 

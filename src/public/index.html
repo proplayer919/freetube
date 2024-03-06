@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>FreeTube</title>
+
+        <style>
+            * {
+                text-align: center;
+            }
+
+            .heading {
+                font-family: Helvetica, sans-serif;
+                margin-top: 40vh;
+            }
+
+            .url,
+            .button {
+                font-size: 1.3em;
+                padding: 5px 10px;
+            }
+
+            .url {
+                border-radius: 4px;
+                width: 30em;
+                text-align: left;
+                border: 2px solid #EEEEEE;
+                background: #EEEEEE;
+                outline: none;
+            }
+
+            .url:focus {
+                border: 2px solid #0485ff;
+            }
+
+            .button {
+                border-radius: 4px;
+                border: 2px solid #0485ff;
+                background: #0485ff;
+                color: white;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1 class="heading">FreeTube</h1>
+        <input class="url" id="url" placeholder="YouTube URL here (e.g. https://youtube.com/watch?v=MtN1YnoL46Q)">
+        <button class="button" id="watch">Watch</button>
+        <button class="button" id="download">Download</button>
+
+        <script>
+            const watchBtn = document.getElementById('watch'),
+            url = document.getElementById('url'),
+            downloadBtn = document.getElementById('download');
+
+            watchBtn.addEventListener('click', () => {
+                watch(url.value);
+            });
+
+            function watch(url) {
+                if (!url) {
+                    return;
+                }
+                url = url.split('watch?v=')[1];
+                window.open(`/watch?url=${url}`);
+            }
+
+            downloadBtn.addEventListener('click', () => {
+                download(url.value);
+            });
+
+            function download(url) {
+                if (!url) {
+                    return;
+                }
+                url = url.split('watch?v=')[1];
+                window.open(`/video?url=${url}`);
+            }
+        </script>
+    </body>
+
+</html>

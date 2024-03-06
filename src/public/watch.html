@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Watch | FreeTube</title>
+
+        <style>
+            video {
+                display: block;
+                margin: auto;
+                max-width: 100%;
+                max-height: 100vh;
+                overflow: hidden;
+            }
+        </style>
+    </head>
+
+    <body>
+        <video controls>
+            <source id="videoSrc" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
+        <script>
+            let url = window.location.href.split('?')[1].split('=')[1];
+            document.getElementById('videoSrc').src = `/video?url=${url}`;
+        </script>
+    </body>
+
+</html>
